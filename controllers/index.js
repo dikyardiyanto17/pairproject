@@ -26,15 +26,17 @@ class Controller {
     static loginPost (req, res){
         User.findOne({where: {username: req.body.username}})
             .then(user => {
-                if (user.username){
-                    let isValidPassword = bcrypt.compareSync(req.body.password, user.password)
-                    if (isValidPassword){
-                        req.session.username = user.username
-                        res.render('home')
-                    } else {
-                        const validate = "password is not valid"
-                        res.redirect(`/?validation=${validate}`)
-                    }
+                if(user){
+                    if (user.username){
+                        let isValidPassword = bcrypt.compareSync(req.body.password, user.password)
+                        if (isValidPassword){
+                            req.session.username = user.username
+                            res.render('home')
+                        } else {
+                            const validate = "password is not valid"
+                            res.redirect(`/?validation=${validate}`)
+                        }
+                    } 
                 } else {
                     const validate = "username/password is not valid"
                     res.redirect(`/?validation=${validate}`)

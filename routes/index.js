@@ -8,11 +8,11 @@ router.get('/register', Controller.register)
 router.post('/register', Controller.registerPost)
 
 router.use((req, res, next) => {
-    if (req.session.username){
-        next()
-    } else {
+    if (!req.session.username){
         const validate = "please log in first"
         res.redirect(`/?validation=${validate}`)
+    } else {
+        next()
     }
 })
 
