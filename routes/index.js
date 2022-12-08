@@ -16,9 +16,14 @@ router.use((req, res, next) => {
     }
 })
 
-router.post('/home', (req, res) => {
-    res.render('home')
-})
+// Diky
+router.get('/profile/:username')
+router.get('/profile')
+router.post('/profile')
+
+//Norizza
+router.get('/home') // halaman posting
+router.get('/allprofiles') // Tabel semua user beserta tombol delete
 
 
 
