@@ -12,12 +12,14 @@ module.exports = {
       PostId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model:{tableName: "Posts"}, key: "id"}
+        references: {model:{tableName: "Posts"}, key: "id"},
+        onDelete: 'CASCADE'
       },
       TagId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model:{tableName: "Tags"}, key: "id"}
+        references: {model:{tableName: "Tags"}, key: "id"},
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

@@ -9,7 +9,7 @@
 <body>
     <h1>Profile</h1>
         <% if(profile.User.role === 'admin') { %> 
-            <a href="/allprofiles"><button>ADMIN</button></a>
+            <a href="/allprofiles"><button>User List</button></a>
         <%}%> 
     <% if (profile.User.username == username){ %>
         <a href="/profile/<%= profile.id %>/edit"><button>Edit</button></a>
@@ -29,25 +29,7 @@
     </p>    <p>
         Gender : <%= profile.gender %>
     </p>
-    <form action="/profile/<%= profile.id %>/post" method="post">
-        <fieldset>
-            <legend>Post Here</legend>
-            <p>
-                <input type="text" name="title" placeholder="Post Title"> <br>
-            </p>
-            <p>
-                <textarea name="content" id="" cols="50" rows="10" placeholder="Leave a description here"></textarea>
-            </p>
-            <p>
-                <select name="moodStatus" id="">
-                    <option value="" selected disabled>-choose your mood-</option>
-                    <option value="online">Online</option>
-                    <option value="gabut">Gabut</option>
-                </select>
-            </p>
-            <button type="submit">post</button>
-        </fieldset>
-    </form>
+
     <% profile.Posts.forEach(el => { %>
         <div class="timeline" >
             <div class="outer">

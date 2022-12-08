@@ -1,6 +1,6 @@
 const { User, Profile, Post, Tag, PostTag } = require('../models')
 const bcrypt = require('bcryptjs')
-const { use } = require('../routes')
+var emoji = require('node-emoji')
 const dateFormat = require('../helpers/formatter')
 const {Op} = require('sequelize')
 
@@ -87,9 +87,11 @@ class Controller {
     }
     static profileHome (req, res) {
         const {validation} = req.query
-        let option = {include: [Profile]}
+        let emoticon = [emoji.get('coffee'),emoji.find('🍕')]
+        // User.findAll({ include: { all: true, nested: true }});
+        let option = {include: { all: true, nested: true }}
         if (req.query.sort){
-            option.order= [['createdAt', req.query.sort]]
+            option.order= [['createdAt', `${req.query.sort}`]]
         }
         if (req.query.title){
             option.where = {}
@@ -98,12 +100,13 @@ class Controller {
         let data = {}
         Post.findAll(option)
         .then(post => {
+            // res.send(post);
             data.post = post
             return User.findOne({where: {username: req.session.username} , include: Profile})
         })
         .then(user => {
             
-            res.render('home', {...data, user, dateFormat, validation})
+            res.render('home', {...data, user, dateFormat, validation, emoticon})
             // res.send(post)
         })
     }
@@ -118,13 +121,23 @@ class Controller {
     }
 
     static postContentHome (req, res) {
-        
-        const {title, content, moodStatus, ProfileId} = req.body
+        let id = {}
+        const {title, content, moodStatus, ProfileId, name} = req.body
         Post.create({title, content, moodStatus, ProfileId})
-        .then(() => res.redirect('/home'))
+        .then(post => {
+            id.post = post.id
+            return Tag.create({name})
+        })
+        .then(tag => {
+            PostTag.create({PostId: id.post, TagId: tag.id})
+            // id.tag = tag.id
+            res.redirect('/home')
+        })
     }
 
+
     static allProfiles(req, res) {
+            // res.send(users)
         User.findAll({
             include: {
                 model: Profile,
@@ -135,6 +148,7 @@ class Controller {
             res.render('allusers', {users})
             // res.send(users)
         })
+     
     }
     static deleteUser (req, res) {
         const id = +req.params.userId

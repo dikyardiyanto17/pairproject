@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcryptjs')
+const { Profile } = require("./")
 
 const {
   Model
@@ -12,6 +13,18 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+
+    // static requirement (option) {
+
+    //   option = {
+    //     include: {
+    //         model: Profile,
+    //         required:true
+    //     }
+    // }
+    //   return User.findAll(option)
+    // }
+
     static associate(models) {
       // define association here
       User.hasOne(models.Profile)

@@ -10,14 +10,14 @@
     <!-- <a href="">Show Profile</a> -->
     <form action="/home" method="get">
         <p>
-            <input type="text" name="title" value="Search User">
+            <input type="text" name="title" placeholder="Search By Title">
         </p>
         <p>
-            <a href="/home?sort=DESC"><button>Newest</button></a>
-            <a href="/home?sort=ASC"><button>Oldest</button></a>
         </p>
         <input type="submit" value="Search">
     </form>
+    <a href="/home?sort=DESC"><button>Newest</button></a>
+    <a href="/home?sort=ASC"><button>Oldest</button></a>
     <% if(validation) { %>
         <p><%= validation %> </p>
     <% } %> 
@@ -33,10 +33,16 @@
             <p>
                 <select name="moodStatus" id="">
                     <option value="" selected disabled>-choose your mood-</option>
-                    <option value="online">Online</option>
-                    <option value="gabut">Gabut</option>
+                    <% emoticon.forEach(em => {%>
+                        <option value="online"><%= em %> </option>   
+                        <%}) %> 
+
                 </select>
                 <input type="hidden"  name="ProfileId" value="<%= user.Profile.id %>  ">
+            </p>
+            <p>
+                Hashtag:
+                <input type="text" name="name" id="">
             </p>
             <button type="submit">post</button>
         </fieldset>
@@ -60,9 +66,13 @@
                       <h4 class="title" style=" color: orangered;
                       position: relative;"><%= el.title %> </h4>
                       <p><%= el.content %>  </p>
+                      <% el.PostTags.forEach(x => {%>
+                            <p>#<%= x.Tag.name %> </p>
+                        <%}) %> 
                       <h6> Post at <%= dateFormat(el.createdAt) %>  </h6>
                     </div>
                   </div>
             <% }) %> 
 </body>
-</html>
+</html>bat
+
