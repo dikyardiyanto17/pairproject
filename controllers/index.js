@@ -87,6 +87,9 @@ class Controller {
                 res.render('profile', {profile, username, dateFormat})
                 // res.send(profile);
             })
+            .catch(err => {
+                res.send(err)
+            })
     }
 
     static profileEdit (req, res){
@@ -95,7 +98,11 @@ class Controller {
                 let gender = ["Male", "Female"]
                 res.render('profile-edit', {profile, gender})
             })     
+            .catch(err => {
+                res.send(err)
+            })
     }
+    
     static profileHome (req, res) {
         const {error} = req.query
         const {validation} = req.query
@@ -119,6 +126,9 @@ class Controller {
             return Tag.findAll()
         })
         .then(tag => res.render('home', {...data, tag, dateFormat, validation, emoticon, error}))
+        .catch(err => {
+            res.send(err)
+        })
     }
 
     static postContent (req, res) {
@@ -128,6 +138,9 @@ class Controller {
         console.log(req.body);
         Post.create({title, content, moodStatus, ProfileId: +id})
         .then(() => res.redirect('/home'))
+        .catch(err => {
+            res.send(err)
+        })
     }
 
     static postContentHome (req, res) {
@@ -161,8 +174,11 @@ class Controller {
             res.render('allusers', {users})
             // res.send(users)
         })
-     
+        .catch(err => {
+            res.send(err)
+        })
     }
+
     static deleteUser (req, res) {
         const id = +req.params.userId
         console.log(req.params);
@@ -177,6 +193,9 @@ class Controller {
         .then(() => {
                 User.destroy({where: {id: idToDelete.user}})
                 res.redirect('/allprofiles')
+            })
+            .catch(err => {
+                res.send(err)
             })
     }
 
