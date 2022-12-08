@@ -8,9 +8,19 @@
 </head>
 <body>
     <!-- <a href="">Show Profile</a> -->
+    <form action="/home" method="get">
+        <p>
+            <input type="text" name="title" value="Search User">
+        </p>
+        <p>
+            <a href="/home?sort=DESC"><button>Newest</button></a>
+            <a href="/home?sort=ASC"><button>Oldest</button></a>
+        </p>
+        <input type="submit" value="Search">
+    </form>
     <% if(validation) { %>
         <p><%= validation %> </p>
-        <% } %> 
+    <% } %> 
     <form action="/home/post" method="post">
         <fieldset>
             <legend>Post Here</legend>

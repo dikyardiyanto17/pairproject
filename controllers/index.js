@@ -2,6 +2,7 @@ const { User, Profile, Post, Tag, PostTag } = require('../models')
 const bcrypt = require('bcryptjs')
 const { use } = require('../routes')
 const dateFormat = require('../helpers/formatter')
+const {Op} = require('sequelize')
 
 class Controller {
     static login (req, res){
@@ -86,13 +87,16 @@ class Controller {
     }
     static profileHome (req, res) {
         const {validation} = req.query
+        let option = {include: [Profile]}
+        if (req.query.sort){
+            option.order= [['createdAt', req.query.sort]]
+        }
+        if (req.query.title){
+            option.where = {}
+            option.where.title = {[Op.iLike]: `%${req.query.title}%`}
+        }
         let data = {}
-        Post.findAll({
-            include: [Profile],
-            order: [
-                ['createdAt', 'DESC']
-            ]
-        })
+        Post.findAll(option)
         .then(post => {
             data.post = post
             return User.findOne({where: {username: req.session.username} , include: Profile})
@@ -147,6 +151,10 @@ class Controller {
                 User.destroy({where: {id: idToDelete.user}})
                 res.redirect('/allprofiles')
             })
+    }
+
+    static logout (req, res){
+        req.session.destroy((err) => res.redirect('/login'))
     }
 }
 
