@@ -11,8 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      PostTag.belongsTo(models.Tag)
-      PostTag.belongsTo(models.Post)
+      PostTag.belongsTo(models.Tag, {
+        onDelete: 'CASCADE'
+      })
+      PostTag.belongsTo(models.Post, {
+        onDelete: 'CASCADE'
+      })
     }
   }
   PostTag.init({
