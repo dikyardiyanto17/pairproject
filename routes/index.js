@@ -17,13 +17,15 @@ router.use((req, res, next) => {
 })
 
 // Diky
-router.get('/profile/:username')
-router.get('/profile')
-router.post('/profile')
+router.get('/checkprofile', Controller.checkProfile)
+router.post('/profile/create', Controller.profileAdd)
+router.get('/profile/:profileId', Controller.profile)
+router.get('/profile/:profileId/edit', Controller.profileEdit)
+// router.post('/profile/:username')
 
 //Norizza
-router.get('/home') // halaman posting
-router.get('/allprofiles') // Tabel semua user beserta tombol delete
+// router.get('/home') // halaman post
+// router.get('/allprofiles') // Tabel semua user beserta tombol delete
 
 
 

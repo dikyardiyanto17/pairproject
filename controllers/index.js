@@ -1,5 +1,6 @@
 const { User, Profile, Post, Tag, PostTag } = require('../models')
 const bcrypt = require('bcryptjs')
+const { use } = require('../routes')
 
 class Controller {
     static login (req, res){
@@ -31,7 +32,7 @@ class Controller {
                         let isValidPassword = bcrypt.compareSync(req.body.password, user.password)
                         if (isValidPassword){
                             req.session.username = user.username
-                            res.render('home')
+                            res.redirect('/checkprofile')
                         } else {
                             const validate = "password is not valid"
                             res.redirect(`/?validation=${validate}`)
@@ -42,6 +43,41 @@ class Controller {
                     res.redirect(`/?validation=${validate}`)
                 }
             })
+    }
+
+    static checkProfile (req, res){
+        User.findOne({where: {username: req.session.username}, include: Profile})
+            .then(user => {
+                if (!user.Profile){
+                    console.log(user)
+                    res.render('profile-add')
+                } else {
+                    res.redirect(`/profile/${user.Profile.id}`)
+                }
+            })
+    }
+
+    static profileAdd (req, res){
+        User.findOne({where: {username: req.session.username}})
+            .then(user => {
+                const {fullname, photo, bio, phone, gender} = req.body
+                return Profile.create({fullname, photo, bio, phone, gender, UserId: user.id})
+            })
+            .then(profile => res.redirect(`/profile/${profile.id}`))
+    }
+
+    static profile (req, res){
+        const {username} = req.session
+        Profile.findOne({where: {id: req.params.profileId}, include: User})
+            .then(profile => res.render('profile', {profile, username}))
+    }
+
+    static profileEdit (req, res){
+        Profile.findByPk(req.params.profileId)
+            .then(profile => {
+                let gender = ["Male", "Female"]
+                res.render('profile-edit', {profile, gender})
+            })     
     }
 
 }

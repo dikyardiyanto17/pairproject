@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Profile</h1>
+
+    <% if (profile.User.username == username){ %>
+        <a href="/profile/<%= profile.id %>/edit"><button>Edit</button></a>
+    <% } %>
+
+    <p>
+        Fullname : <%= profile.fullname %>
+    </p>
+    <p>
+        Photo : <%= profile.photo %>
+    </p>
+    <p>
+        Bio : <%= profile.bio %>
+    </p>    <p>
+        Phone : <%= profile.phone %>
+    </p>    <p>
+        Gender : <%= profile.gender %>
+    </p>
+</body>
+</html>
