@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         option.where.title = {[Op.iLike]: `%${search}%`}
     }
     return Post.findAll(option)
+    
     }
     static associate(models) {
       // define association here
