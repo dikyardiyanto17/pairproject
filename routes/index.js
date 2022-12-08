@@ -16,13 +16,11 @@ router.use((req, res, next) => {
     }
 })
 
-// Diky
 router.get('/checkprofile', Controller.checkProfile)
 router.post('/profile/create', Controller.profileAdd)
 router.get('/profile/:profileId', Controller.profile)
 router.get('/profile/:profileId/edit', Controller.profileEdit)
 
-//Norizza
 router.get('/home', Controller.profileHome) // halaman post
 router.post('/profile/:profileId/post', Controller.postContent)
 router.post('/home/post', Controller.postContentHome)
@@ -37,7 +35,7 @@ router.use((req, res, next) => {
     }
 })
 
-router.get('/allprofiles', Controller.allProfiles) // Tabel semua user beserta tombol delete
+router.get('/allprofiles', Controller.allProfiles)
 router.get('/allprofiles/:userId/delete', Controller.deleteUser)
 
 

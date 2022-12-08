@@ -60,9 +60,7 @@ class Controller {
                     res.redirect(`/profile/${user.Profile.id}`)
                 }
             })
-            .catch(err => {
-                res.send(err)
-            })
+            .catch(err => res.send(err))
     }
 
     static profileAdd (req, res){
@@ -85,11 +83,8 @@ class Controller {
         Profile.findOne({where: {id: req.params.profileId}, include: [User, Post]})
             .then(profile => {
                 res.render('profile', {profile, username, dateFormat})
-                // res.send(profile);
             })
-            .catch(err => {
-                res.send(err)
-            })
+            .catch(err => res.send(err))
     }
 
     static profileEdit (req, res){
@@ -98,9 +93,7 @@ class Controller {
                 let gender = ["Male", "Female"]
                 res.render('profile-edit', {profile, gender})
             })     
-            .catch(err => {
-                res.send(err)
-            })
+            .catch(err => res.send(err))
     }
 
     static profileHome (req, res) {
@@ -126,9 +119,7 @@ class Controller {
             return Tag.findAll()
         })
         .then(tag => res.render('home', {...data, tag, dateFormat, validation, emoticon, error}))
-        .catch(err => {
-            res.send(err)
-        })
+        .catch(err => res.send(err))
     }
 
     static postContent (req, res) {
@@ -138,9 +129,7 @@ class Controller {
         console.log(req.body);
         Post.create({title, content, moodStatus, ProfileId: +id})
         .then(() => res.redirect('/home'))
-        .catch(err => {
-            res.send(err)
-        })
+        .catch(err => res.send(err))
     }
 
     static postContentHome (req, res) {
@@ -161,9 +150,7 @@ class Controller {
 
     }
 
-
     static allProfiles(req, res) {
-            // res.send(users)
         User.findAll({
             include: {
                 model: Profile,
@@ -174,9 +161,7 @@ class Controller {
             res.render('allusers', {users})
             // res.send(users)
         })
-        .catch(err => {
-            res.send(err)
-        })
+        .catch(err => res.send(err))
     }
 
     static deleteUser (req, res) {
@@ -194,9 +179,7 @@ class Controller {
                 User.destroy({where: {id: idToDelete.user}})
                 res.redirect('/allprofiles')
             })
-            .catch(err => {
-                res.send(err)
-            })
+            .catch(err => res.send(err))
     }
 
     static logout (req, res){
