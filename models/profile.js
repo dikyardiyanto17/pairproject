@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       profile.photo = "https://dl.kaskus.id/encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQrHf3nLIogwhbdUPEfKdlkQAG9BfkifF_ImfvxsOhJDctgAYJa"
     }
     if (!profile.bio){
-      profile.bio = "Aku males ngisi bio"
+      profile.bio = "Orang ini males ngisi bio"
     }
   })
   return Profile;

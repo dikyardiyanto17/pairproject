@@ -10,6 +10,8 @@
 <body>
     <%- include('partial/header2') %>
     <div style="text-align: center; background-color: blue; opacity: 0.8; padding: 20px; width: 700px; margin: 10px auto; color: beige; border-radius: 10px;">
+        <h1 style="color: white; text-align: left;"><a href="/profile/<%= user.Profile.id %> "><button  class="btn btn-primary">Mau ngaca?</button></a></h1>
+
     <form action="/home" method="get">
         <p>
             <input type="text" name="title" placeholder="Search By Title" class="form-control">
@@ -42,7 +44,6 @@
                     <% emoticon.forEach(em => {%>
                         <option value="<%= em %>"><%= em %> </option>   
                         <%}) %> 
-
                 </select>
                 <input type="hidden"  name="ProfileId" value="<%= user.Profile.id %>" >
             </p>

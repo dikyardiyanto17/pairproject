@@ -102,7 +102,7 @@ class Controller {
                 res.send(err)
             })
     }
-    
+
     static profileHome (req, res) {
         const {error} = req.query
         const {validation} = req.query
@@ -119,7 +119,7 @@ class Controller {
         Post.findAll(option)
         .then(post => {
             data.post = post
-            return User.findOne({where: {username: req.session.username} , include: Profile})
+            return User.findOne({where: {username: req.session.username}, include: Profile})
         })
         .then(user => {
             data.user = user

@@ -39,6 +39,7 @@
         Jenis kelaminnya : <%= profile.gender %> <br>
     </p>
     <br>
+    <% if (profile.Posts.length != 0){ %>
     <h2>Postingannya</h2>
     <% profile.Posts.forEach(el => { %>
         <div style="width: 500px; padding: 50px; background-color: black; opacity: 1; margin: 30px auto; border-radius: 30px;">
@@ -50,7 +51,10 @@
             </div>
             <h6> Post at <%= dateFormat(el.createdAt) %>  </h6>
         </div>
-        <% }) %> 
+    <% }) %> 
+    <% } else {%> 
+        <h2>Orang ini belum posting sama sekali</h2>
+    <% } %> 
     </div>
 </body>
 </html>
