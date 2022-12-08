@@ -23,12 +23,22 @@ router.get('/profile/:profileId', Controller.profile)
 router.get('/profile/:profileId/edit', Controller.profileEdit)
 
 //Norizza
-// router.get('/home') // halaman post
-// router.get('/allprofiles') // Tabel semua user beserta tombol delete
+router.get('/home', Controller.profileHome) // halaman post
+router.post('/profile/:profileId/post', Controller.postContent)
+router.post('/home/post', Controller.postContentHome)
+router.get('/logout', Controller.logout)
 
+router.use((req, res, next) => {
+    if (req.session.role !== 'user'){
+        next()
+    } else {
+        const validate = "please log in first"
+        res.redirect(`/home?validate= ${validate}`)
+    }
+})
 
-
-
+router.get('/allprofiles', Controller.allProfiles) // Tabel semua user beserta tombol delete
+router.get('/allprofiles/:userId/delete', Controller.deleteUser)
 
 
 module.exports = router

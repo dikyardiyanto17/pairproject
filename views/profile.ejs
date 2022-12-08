@@ -8,11 +8,14 @@
 </head>
 <body>
     <h1>Profile</h1>
-
+        <% if(profile.User.role === 'admin') { %> 
+            <a href="/allprofiles"><button>User List</button></a>
+        <%}%> 
     <% if (profile.User.username == username){ %>
         <a href="/profile/<%= profile.id %>/edit"><button>Edit</button></a>
     <% } %>
-
+        <a href="/home"><button>Home</button></a>
+        <a href="/logout">Log Out</a>
     <p>
         Fullname : <%= profile.fullname %>
     </p>
@@ -26,5 +29,25 @@
     </p>    <p>
         Gender : <%= profile.gender %>
     </p>
+
+    <% profile.Posts.forEach(el => { %>
+        <div class="timeline" >
+            <div class="outer">
+              <div class="card" style="position: relative;
+              margin: 0 0 20px 20px;
+              padding: 10px;
+              background: #333;
+              color: gray;
+              border-radius: 8px;
+              max-width: 400px;">
+                <div class="info" style="  display: flex;
+                flex-direction: column;">
+                  <h3 class="title" style=" color: orangered;
+                  position: relative;"><%= el.title %> </h3>
+                  <p><%= el.content %>  </p>
+                  <h6> Post at <%= dateFormat(el.createdAt) %>  </h6>
+                </div>
+              </div>
+        <% }) %> 
 </body>
 </html>

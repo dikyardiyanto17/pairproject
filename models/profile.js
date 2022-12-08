@@ -9,9 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    formatPhone() {
+      return `+62${this.phone}`
+    }
     static associate(models) {
       // define association here
-      Profile.belongsTo(models.User)
+      Profile.belongsTo(models.User, {
+        onDelete: 'CASCADE'
+      })
       Profile.hasMany(models.Post)
     }
   }
@@ -52,5 +57,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Profile',
   });
+  Profile.beforeCreate((profile)=> {
+    profile.phone = profile.formatPhone()
+  })
   return Profile;
 };

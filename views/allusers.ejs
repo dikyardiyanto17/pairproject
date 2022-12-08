@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users</title>
+</head>
+
+<body>
+    <h1>All Users</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>User Name</td>
+                <td>Profile Name</td>
+                <td>Since</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(el=> { %>
+            <tr>
+                <td><%= el.id %></td>
+                <td><%= el.username %></td>
+                <td><%= el.Profile.fullname %></td>
+                <td><%= el.createdAt.toLocaleDateString("id-ID") %></td>
+                <% if (el.role != "admin"){ %>
+                <td>
+                    <a href="/allprofiles/<%= el.id %>/delete "><button>Delete</button></a>
+                </td>
+                <% } %>
+            </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>
