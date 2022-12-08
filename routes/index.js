@@ -27,6 +27,7 @@ router.get('/profile/:profileId/edit', Controller.profileEdit)
 router.get('/home', Controller.profileHome) // halaman post
 router.post('/profile/:profileId/post', Controller.postContent)
 router.post('/home/post', Controller.postContentHome)
+router.get('/logout', Controller.logout)
 
 router.use((req, res, next) => {
     if (req.session.role !== 'user'){

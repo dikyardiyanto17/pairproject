@@ -27,9 +27,11 @@
                 <td><%= el.username %></td>
                 <td><%= el.Profile.fullname %></td>
                 <td><%= el.createdAt.toLocaleDateString("id-ID") %></td>
+                <% if (el.role != "admin"){ %>
                 <td>
                     <a href="/allprofiles/<%= el.id %>/delete "><button>Delete</button></a>
                 </td>
+                <% } %>
             </tr>
                 <% }) %>
         </tbody>
