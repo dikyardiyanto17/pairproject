@@ -1,6 +1,7 @@
 const { User, Profile, Post, Tag, PostTag } = require('../models')
 const bcrypt = require('bcryptjs')
 const { use } = require('../routes')
+const dateFormat = require('../helpers/formatter')
 
 class Controller {
     static login (req, res){
@@ -32,6 +33,7 @@ class Controller {
                         let isValidPassword = bcrypt.compareSync(req.body.password, user.password)
                         if (isValidPassword){
                             req.session.username = user.username
+                            req.session.role = user.role
                             res.redirect('/checkprofile')
                         } else {
                             const validate = "password is not valid"
@@ -68,8 +70,11 @@ class Controller {
 
     static profile (req, res){
         const {username} = req.session
-        Profile.findOne({where: {id: req.params.profileId}, include: User})
-            .then(profile => res.render('profile', {profile, username}))
+        Profile.findOne({where: {id: req.params.profileId}, include: [User, Post]})
+            .then(profile => {
+                res.render('profile', {profile, username, dateFormat})
+                // res.send(profile);
+            })
     }
 
     static profileEdit (req, res){
@@ -79,7 +84,72 @@ class Controller {
                 res.render('profile-edit', {profile, gender})
             })     
     }
+    static profileHome (req, res) {
+        const {validation} = req.query
+        let data = {}
+        Post.findAll({
+            include: [Profile],
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        })
+        .then(post => {
+            data.post = post
+            return User.findOne({where: {username: req.session.username} , include: Profile})
+        })
+        .then(user => {
+            
+            res.render('home', {...data, user, dateFormat, validation})
+            // res.send(post)
+        })
+    }
 
+    static postContent (req, res) {
+        const id = +req.params.profileId
+        const {title, content, moodStatus} = req.body
+        console.log(req.params);
+        console.log(req.body);
+        Post.create({title, content, moodStatus, ProfileId: +id})
+        .then(() => res.redirect('/home'))
+    }
+
+    static postContentHome (req, res) {
+        
+        const {title, content, moodStatus, ProfileId} = req.body
+        Post.create({title, content, moodStatus, ProfileId})
+        .then(() => res.redirect('/home'))
+    }
+
+    static allProfiles(req, res) {
+        User.findAll({
+            include: {
+                model: Profile,
+                required:true
+            }
+        })
+        .then(users => {
+            res.render('allusers', {users})
+            // res.send(users)
+        })
+    }
+    static deleteUser (req, res) {
+        const id = +req.params.userId
+        console.log(req.params);
+        const idToDelete = {}
+        User.findByPk(id, {include: Profile})
+        .then(data => {
+            // console.log(data.Profile.id);
+            idToDelete.user = data.id
+            idToDelete.profile = data.Profile.id
+            return Profile.destroy({where: {id:  idToDelete.profile}})
+        })
+        .then(() => {
+                User.destroy({where: {id: idToDelete.user}})
+                res.redirect('/allprofiles')
+            })
+    }
 }
+
+
 
 module.exports = Controller

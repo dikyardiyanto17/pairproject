@@ -7,6 +7,52 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hallo</h1>
+    <!-- <a href="">Show Profile</a> -->
+    <% if(validation) { %>
+        <p><%= validation %> </p>
+        <% } %> 
+    <form action="/home/post" method="post">
+        <fieldset>
+            <legend>Post Here</legend>
+            <p>
+                <input type="text" name="title" placeholder="Post Title"> <br>
+            </p>
+            <p>
+                <textarea name="content" id="" cols="50" rows="10" placeholder="Leave a description here"></textarea>
+            </p>
+            <p>
+                <select name="moodStatus" id="">
+                    <option value="" selected disabled>-choose your mood-</option>
+                    <option value="online">Online</option>
+                    <option value="gabut">Gabut</option>
+                </select>
+                <input type="hidden"  name="ProfileId" value="<%= user.Profile.id %>  ">
+            </p>
+            <button type="submit">post</button>
+        </fieldset>
+    </form>
+        <% post.forEach(el => { %>
+            <div class="timeline" >
+                <div class="outer">
+                  <div class="card" style="position: relative;
+                  margin: 0 0 20px 20px;
+                  padding: 10px;
+                  background: #333;
+                  color: gray;
+                  border-radius: 8px;
+                  max-width: 400px;">
+                    <div class="info" style="  display: flex;
+                    flex-direction: column;">
+                    <h4 class="title" style=" color: red;
+                    position: relative;">
+                    <a href="/profile/<%= el.Profile.id %> ">@<%= el.Profile.fullname %></a>
+                     </h4>
+                      <h4 class="title" style=" color: orangered;
+                      position: relative;"><%= el.title %> </h4>
+                      <p><%= el.content %>  </p>
+                      <h6> Post at <%= dateFormat(el.createdAt) %>  </h6>
+                    </div>
+                  </div>
+            <% }) %> 
 </body>
 </html>
