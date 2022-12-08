@@ -99,17 +99,12 @@ class Controller {
     static profileHome (req, res) {
         const {error} = req.query
         const {validation} = req.query
+        const {search, sort} = req.query
         let emoticon = [`${emoji.get('coffee')} NGOPI DULU`,`${emoji.get('pizza')} MAKAN DULU KUY`,`${emoji.get(':fast_forward:')} BURUAN KUY`, `${emoji.get("sleepy")} NGANTUK OY`]
         let option = {include: { all: true, nested: true }}
-        if (req.query.sort){
-            option.order= [['createdAt', `${req.query.sort}`]]
-        }
-        if (req.query.title){
-            option.where = {}
-            option.where.title = {[Op.iLike]: `%${req.query.title}%`}
-        }
+
         let data = {}
-        Post.findAll(option)
+        Post.scopeNotVacantPost(option, search, sort)
         .then(post => {
             data.post = post
             return User.findOne({where: {username: req.session.username}, include: Profile})
@@ -125,8 +120,6 @@ class Controller {
     static postContent (req, res) {
         const id = +req.params.profileId
         const {title, content, moodStatus} = req.body
-        console.log(req.params);
-        console.log(req.body);
         Post.create({title, content, moodStatus, ProfileId: +id})
         .then(() => res.redirect('/home'))
         .catch(err => res.send(err))

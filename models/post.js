@@ -9,6 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static scopeNotVacantPost(option, search, sort) {
+      if (sort){
+        option.order= [['createdAt', `${sort}`]]
+    }
+    if (search){
+        option.where = {}
+        option.where.title = {[Op.iLike]: `%${search}%`}
+    }
+    return Post.findAll(option)
+    }
     static associate(models) {
       // define association here
       Post.hasMany(models.PostTag)
