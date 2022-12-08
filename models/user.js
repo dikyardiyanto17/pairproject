@@ -1,7 +1,10 @@
 'use strict';
+const bcrypt = require('bcryptjs')
+
 const {
   Model
 } = require('sequelize');
+const { use } = require('../routes');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -63,6 +66,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate: (user, option) => {
+        user.role = "user"
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(user.password, salt)
+        user.password = hash
+      }
+    }
   });
   return User;
 };
