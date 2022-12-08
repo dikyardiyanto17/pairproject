@@ -1,6 +1,7 @@
 'use strict';
+
 const {
-  Model
+  Model, Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
@@ -17,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
         option.where = {}
         option.where.title = {[Op.iLike]: `%${search}%`}
     }
-    return Post.findAll(option)
-    
+    return Post.findAll(option)   
     }
+
     static associate(models) {
       // define association here
       Post.hasMany(models.PostTag)

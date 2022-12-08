@@ -99,12 +99,12 @@ class Controller {
     static profileHome (req, res) {
         const {error} = req.query
         const {validation} = req.query
-        const {search, sort} = req.query
+        const {title, sort} = req.query
         let emoticon = [`${emoji.get('coffee')} NGOPI DULU`,`${emoji.get('pizza')} MAKAN DULU KUY`,`${emoji.get(':fast_forward:')} BURUAN KUY`, `${emoji.get("sleepy")} NGANTUK OY`]
         let option = {include: { all: true, nested: true }}
 
         let data = {}
-        Post.scopeNotVacantPost(option, search, sort)
+        Post.scopeNotVacantPost(option, title, sort)  //dari static model Post
         .then(post => {
             data.post = post
             return User.findOne({where: {username: req.session.username}, include: Profile})
