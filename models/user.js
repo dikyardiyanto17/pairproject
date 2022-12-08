@@ -37,10 +37,10 @@ module.exports = (sequelize, DataTypes) => {
      allowNull: false,
      validate: {
       notNull: {
-        msg : "Username cannot be empty"
+        msg : "Namanya jangan kosong dong"
       },
       notEmpty: {
-        msg : "Username cannot be empty"
+        msg : "Namanya jangan kosong dong"
       }
      }
     },
@@ -49,14 +49,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg : "Password cannot be empty"
+          msg : "Password jangan kosong dong"
         },
         notEmpty: {
-          msg : "Password cannot be empty"
+          msg : "Password jangan kosong dong"
         },
         len: {
           args: [7,17],
-          msg: "Password character must between 7 and 17"
+          msg: "Passwordnya harus diantara 7 sampai 17 ya"
      }
        }
     },
@@ -65,13 +65,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg : "Email cannot be empty"
+          msg : "Masa ga punya email"
         },
         notEmpty: {
-          msg : "Email cannot be empty"
+          msg : "Masa ga punya email"
         },
         isEmail: {
-          msg: "Email is not valid"
+          msg: "Emailmu abal-abal"
         }
        }
     },

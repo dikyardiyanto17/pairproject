@@ -20,8 +20,8 @@ class Controller {
             .then(_ => res.redirect('/'))
             .catch(err => {
                 const error = err.errors.map(x => {
-                    return x.message
-                })
+                    return `${x.message}`
+                }).join('\n')
                 res.redirect(`/register?error=${error}`)
             })
     }
@@ -37,15 +37,16 @@ class Controller {
                             req.session.role = user.role
                             res.redirect('/checkprofile')
                         } else {
-                            const validate = "password is not valid"
+                            const validate = "Masa masih muda sudah pikun"
                             res.redirect(`/?validation=${validate}`)
                         }
                     } 
                 } else {
-                    const validate = "username/password is not valid"
+                    const validate = "Tolong di inget-inget lagi"
                     res.redirect(`/?validation=${validate}`)
                 }
             })
+            .catch(err => res.send(err))
     }
 
     static checkProfile (req, res){
@@ -73,8 +74,8 @@ class Controller {
             .then(profile => res.redirect(`/profile/${profile.id}`))
             .catch(err => {
                 const error = err.errors.map(x => {
-                    return x.message
-                })
+                    return `${x.message}`
+                }).join(' ')
                 res.redirect(`/checkprofile?error=${error}`)
             })
     }

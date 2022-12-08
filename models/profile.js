@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Name is empty"
+          msg: "Terus aku manggil kamu apa?"
         },
         notEmpty: {
-          msg: "Name is empty"
+          msg: "Terus aku manggil kamu apa?"
         }
       }
     },
@@ -42,14 +42,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Gender is required"
+          msg: "Kamu cowo apa cewe?"
         },
         notEmpty: {
-          msg: "Gender is required"
+          msg: "Kamu cowo apa cewe?"
         },
         isIn: {
-          args: [["Male", "Female"]],
-          msg: "Must be either female or male"
+          args: [["Cowo", "Cewe"]],
+          msg: "Bencong ya?"
         }
       }
     }
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       profile.photo = "https://dl.kaskus.id/encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQrHf3nLIogwhbdUPEfKdlkQAG9BfkifF_ImfvxsOhJDctgAYJa"
     }
     if (!profile.bio){
-      profile.bio = "Aku gabut"
+      profile.bio = "Aku males ngisi bio"
     }
   })
   return Profile;

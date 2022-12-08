@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Kamu sudah masuk</title>
 </head>
 <body>
-    <!-- <a href="">Show Profile</a> -->
+    <%- include('partial/header2') %>
+    <div style="text-align: center; background-color: blue; opacity: 0.8; padding: 20px; width: 700px; margin: 10px auto; color: beige; border-radius: 10px;">
     <form action="/home" method="get">
         <p>
-            <input type="text" name="title" placeholder="Search By Title">
+            <input type="text" name="title" placeholder="Search By Title" class="form-control">
         </p>
         <p>
         </p>
-        <input type="submit" value="Search">
+        <input type="submit" value="Search" class="btn btn-dark">
     </form>
-    <a href="/home?sort=DESC"><button>Newest</button></a>
-    <a href="/home?sort=ASC"><button>Oldest</button></a>
+    <br>
+    <a href="/home?sort=DESC"><button class="btn btn-danger">Newest</button></a>
+    <a href="/home?sort=ASC"><button class="btn btn-primary">Oldest</button></a>
     <% if(validation) { %>
         <p><%= validation %> </p>
     <% } %> 
@@ -28,58 +31,53 @@
         <fieldset>
             <legend>Post Here</legend>
             <p>
-                <input type="text" name="title" placeholder="Post Title"> <br>
+                <input type="text" name="title" placeholder="Post Title" class="form-control"> <br>
             </p>
             <p>
-                <textarea name="content" id="" cols="50" rows="10" placeholder="Leave a description here"></textarea>
+                <textarea name="content" id="" cols="50" rows="10" placeholder="Leave a description here" class="form-control"></textarea>
             </p>
             <p>
-                <select name="moodStatus" id="">
+                <select name="moodStatus" class="form-select">
                     <option value="" selected disabled>-choose your mood-</option>
                     <% emoticon.forEach(em => {%>
-                        <option value="online"><%= em %> </option>   
+                        <option value="<%= em %>"><%= em %> </option>   
                         <%}) %> 
 
                 </select>
-                <input type="hidden"  name="ProfileId" value="<%= user.Profile.id %>  ">
+                <input type="hidden"  name="ProfileId" value="<%= user.Profile.id %>" >
             </p>
             <p>
                 Hashtag:
-                <select name="TagId">
+                <select name="TagId" class="form-select">
                     <% tag.forEach(x => { %>
                         <option value="<%= x.id %>"><%= x.name %></option>
                     <% }) %>
                 </select>
             </p>
-            <button type="submit">post</button>
+            <button type="submit" class="btn btn-dark">post</button>
         </fieldset>
     </form>
-        <% post.forEach(el => { %>
-            <div class="timeline" >
-                <div class="outer">
-                  <div class="card" style="position: relative;
-                  margin: 0 0 20px 20px;
-                  padding: 10px;
-                  background: #333;
-                  color: gray;
-                  border-radius: 8px;
-                  max-width: 400px;">
-                    <div class="info" style="  display: flex;
-                    flex-direction: column;">
-                    <h4 class="title" style=" color: red;
-                    position: relative;">
-                    <a href="/profile/<%= el.Profile.id %> ">@<%= el.Profile.fullname %></a>
-                     </h4>
-                      <h4 class="title" style=" color: orangered;
-                      position: relative;"><%= el.title %> </h4>
-                      <p><%= el.content %>  </p>
-                      <% el.PostTags.forEach(x => {%>
-                            <p>#<%= x.Tag.name %> </p>
-                        <%}) %> 
-                      <h6> Post at <%= dateFormat(el.createdAt) %>  </h6>
-                    </div>
-                  </div>
-            <% }) %> 
+</div>
+<div style="text-align: center; background-color: blue; opacity: 0.8; padding: 20px; width: 700px; margin: 50px auto; color: beige; border-radius: 10px;">
+    <br> <br>
+<h1>POSTINGAN ORANG GABUT</h1>
+<% post.forEach(el => { %>
+    <div style="width: 500px; padding: 50px; background-color: black; opacity: 1; margin: 30px auto; border-radius: 30px;">
+            <p><img src="<%= el.Profile.photo %>" alt="" style="width: 50px;" class="rounded"><a href="/profile/<%= el.Profile.id %> ">@<%= el.Profile.fullname %></a></p>
+              <div style="margin: 10px auto; width: 350px; background-color: white; color: black; border-radius: 30px;">
+                  <h4><%= el.title %> </h4>
+                  <p><%= el.content %>  </p>
+                  <br>
+                  <p><%= el.moodStatus %></p>
+                  <% el.PostTags.forEach(x => {%>
+                    <p>#<%= x.Tag.name %> </p>
+                    <%}) %> 
+                </div>
+                <h6 style="color: white;"> Post at <%= dateFormat(el.createdAt) %>  </h6>
+          </div>
+    <% }) %> 
+</div>
+
 </body>
 </html>
 
