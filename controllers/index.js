@@ -55,6 +55,9 @@ class Controller {
                     res.redirect(`/profile/${user.Profile.id}`)
                 }
             })
+            .catch(err => {
+                
+            })
     }
 
     static profileAdd (req, res){

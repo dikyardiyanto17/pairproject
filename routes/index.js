@@ -21,7 +21,6 @@ router.get('/checkprofile', Controller.checkProfile)
 router.post('/profile/create', Controller.profileAdd)
 router.get('/profile/:profileId', Controller.profile)
 router.get('/profile/:profileId/edit', Controller.profileEdit)
-// router.post('/profile/:username')
 
 //Norizza
 // router.get('/home') // halaman post
