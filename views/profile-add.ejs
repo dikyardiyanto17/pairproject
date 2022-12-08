@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Create Your Profile</h1>
+    <% if (error){ %>
+        <p><%= error %></p>
+    <% } %>
     <form action="/profile/create" method="post">
         <p>
             Fullname : <br>

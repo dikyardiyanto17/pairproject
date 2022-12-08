@@ -49,17 +49,18 @@ class Controller {
     }
 
     static checkProfile (req, res){
+        const {error}= req.query
         User.findOne({where: {username: req.session.username}, include: Profile})
             .then(user => {
                 if (!user.Profile){
                     console.log(user)
-                    res.render('profile-add')
+                    res.render('profile-add', {error})
                 } else {
                     res.redirect(`/profile/${user.Profile.id}`)
                 }
             })
             .catch(err => {
-                
+                res.send(err)
             })
     }
 
@@ -70,6 +71,12 @@ class Controller {
                 return Profile.create({fullname, photo, bio, phone, gender, UserId: user.id})
             })
             .then(profile => res.redirect(`/profile/${profile.id}`))
+            .catch(err => {
+                const error = err.errors.map(x => {
+                    return x.message
+                })
+                res.redirect(`/checkprofile?error=${error}`)
+            })
     }
 
     static profile (req, res){
@@ -89,9 +96,9 @@ class Controller {
             })     
     }
     static profileHome (req, res) {
+        const {error} = req.query
         const {validation} = req.query
-        let emoticon = [emoji.get('coffee'),emoji.find('🍕')]
-        // User.findAll({ include: { all: true, nested: true }});
+        let emoticon = [`${emoji.get('coffee')} NGOPI DULU`,`${emoji.get('pizza')} MAKAN DULU KUY`,`${emoji.get(':fast_forward:')} BURUAN KUY`, `${emoji.get("sleepy")} NGANTUK OY`]
         let option = {include: { all: true, nested: true }}
         if (req.query.sort){
             option.order= [['createdAt', `${req.query.sort}`]]
@@ -103,15 +110,14 @@ class Controller {
         let data = {}
         Post.findAll(option)
         .then(post => {
-            // res.send(post);
             data.post = post
             return User.findOne({where: {username: req.session.username} , include: Profile})
         })
         .then(user => {
-            
-            res.render('home', {...data, user, dateFormat, validation, emoticon})
-            // res.send(post)
+            data.user = user
+            return Tag.findAll()
         })
+        .then(tag => res.render('home', {...data, tag, dateFormat, validation, emoticon, error}))
     }
 
     static postContent (req, res) {
@@ -124,18 +130,21 @@ class Controller {
     }
 
     static postContentHome (req, res) {
-        let id = {}
-        const {title, content, moodStatus, ProfileId, name} = req.body
+        const {title, content, moodStatus, ProfileId, TagId} = req.body
         Post.create({title, content, moodStatus, ProfileId})
         .then(post => {
-            id.post = post.id
-            return Tag.create({name})
+            return PostTag.create({PostId: post.id, TagId: TagId})
         })
-        .then(tag => {
-            PostTag.create({PostId: id.post, TagId: tag.id})
-            // id.tag = tag.id
+        .then(_ => {
             res.redirect('/home')
         })
+        .catch(err => {
+            const error = err.errors.map(x => {
+                return x.message
+            })
+            res.redirect(`/home?error=${error}`)
+        })
+
     }
 
 

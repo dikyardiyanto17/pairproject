@@ -19,9 +19,42 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Post.init({
-    title: DataTypes.STRING,
-    content: DataTypes.TEXT,
-    moodStatus: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Title is empty"
+        },
+        notEmpty: {
+          msg: "Title is empty"
+        }
+      }
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Content is empty"
+        },
+        notEmpty: {
+          msg: "Content is empty"
+        }
+      }
+    },
+    moodStatus: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "What is your mood?"
+        },
+        notEmpty: {
+          msg: "What is your mood?"
+        }
+      }
+    },
     ProfileId: DataTypes.INTEGER
   }, {
     sequelize,

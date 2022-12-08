@@ -59,6 +59,12 @@ module.exports = (sequelize, DataTypes) => {
   });
   Profile.beforeCreate((profile)=> {
     profile.phone = profile.formatPhone()
+    if (!profile.photo){
+      profile.photo = "https://dl.kaskus.id/encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQrHf3nLIogwhbdUPEfKdlkQAG9BfkifF_ImfvxsOhJDctgAYJa"
+    }
+    if (!profile.bio){
+      profile.bio = "Aku gabut"
+    }
   })
   return Profile;
 };

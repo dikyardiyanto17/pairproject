@@ -21,6 +21,9 @@
     <% if(validation) { %>
         <p><%= validation %> </p>
     <% } %> 
+    <% if(error) { %>
+        <p><%= error %> </p>
+    <% } %> 
     <form action="/home/post" method="post">
         <fieldset>
             <legend>Post Here</legend>
@@ -42,7 +45,11 @@
             </p>
             <p>
                 Hashtag:
-                <input type="text" name="name" id="">
+                <select name="TagId">
+                    <% tag.forEach(x => { %>
+                        <option value="<%= x.id %>"><%= x.name %></option>
+                    <% }) %>
+                </select>
             </p>
             <button type="submit">post</button>
         </fieldset>
@@ -74,5 +81,5 @@
                   </div>
             <% }) %> 
 </body>
-</html>bat
+</html>
 
