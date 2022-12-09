@@ -71,7 +71,9 @@
                   <br>
                   <p><%= el.moodStatus %></p>
                   <% el.PostTags.forEach(x => {%>
-                    <p>#<%= x.Tag.name %> </p>
+                    <p>
+                        <a href="/tag/<%= x.TagId %>">#<%= x.Tag.name %></a>
+                 </p>
                     <%}) %> 
                 </div>
                 <h6 style="color: white;"> Post at <%= dateFormat(el.createdAt) %>  </h6>

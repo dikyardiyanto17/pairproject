@@ -20,8 +20,10 @@ router.get('/checkprofile', Controller.checkProfile)
 router.post('/profile/create', Controller.profileAdd)
 router.get('/profile/:profileId', Controller.profile)
 router.get('/profile/:profileId/edit', Controller.profileEdit)
+router.post('/profile/:profileId/edit', Controller.postEdit)
 
 router.get('/home', Controller.profileHome) // halaman post
+router.get('/tag/:tagId', Controller.tag)
 router.post('/profile/:profileId/post', Controller.postContent)
 router.post('/home/post', Controller.postContentHome)
 router.get('/logout', Controller.logout)

@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Terus aku manggil kamu apa?"
+          msg: "Terus kalo namamu kosong? anjingku aja punya nama"
         },
         notEmpty: {
-          msg: "Terus aku manggil kamu apa?"
+          msg: "Terus kalo namamu kosong? anjingku aja punya nama"
         }
       }
     },

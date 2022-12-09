@@ -11,6 +11,9 @@
     <%- include('partial/header2') %>
     <div style="text-align: center; background-color: blue; opacity: 0.8; padding: 20px; width: 700px; margin: 10px auto; color: beige; border-radius: 10px;">
         <h1>Diganti apa?</h1>
+        <% if (error) { %>
+            <%= error %>
+            <% } %>
     <form action="/profile/<%= profile.id %>/edit" method="post">
         <p>
             Nama panggilannya apa lagi?<br>
